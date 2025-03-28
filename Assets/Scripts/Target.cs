@@ -3,17 +3,25 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Target : MonoBehaviour {
+	
 	private Rigidbody _targetRb;
+	private GameManager _gameManager;
+	public ParticleSystem explosionParticle;
+	
 	private float _minSpeed = 3200;
 	private float _maxSpeed = 3500;
 	
 	private float _maxTorque = 100;
 	private float _xRange = 4;
 	private float _ySpawnPos = 0;
+	
+	public int pointValue;
 
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start() {
 		_targetRb = GetComponent<Rigidbody>();
+		_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		
 		var speed = Random.Range(_minSpeed, _maxSpeed);
 
 		_targetRb.AddForce(
@@ -44,10 +52,17 @@ public class Target : MonoBehaviour {
 	}
 
 	private void OnMouseDown() {
-		Destroy(gameObject);
+		if (_gameManager.isGameActive) {
+			Destroy(gameObject);
+			Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+			_gameManager.UpdateScore(pointValue);
+		}
 	}
 
 	private void OnTriggerEnter(Collider other) {
 		Destroy(gameObject);
+		if (!gameObject.CompareTag("BadItem")) {
+			_gameManager.GameOver();
+		}
 	}
 }
