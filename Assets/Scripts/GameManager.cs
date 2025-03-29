@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
 	public List<GameObject> targets;
+	public TextMeshProUGUI livesText;
+	private int _lives = 3;
 	
 	public TextMeshProUGUI scoreText;
 	public TextMeshProUGUI gameOverText;
@@ -40,6 +42,14 @@ public class GameManager : MonoBehaviour {
 		scoreText.text = "Score: " + _score;
 	}
 
+	public void UpdateLives(int livesToChange) {
+		_lives += livesToChange;
+		livesText.text = "Lives: " + _lives;
+		if (_lives <= 0) {
+			GameOver();
+		}
+	}
+
 	public void GameOver() {
 		restartButton.gameObject.SetActive(true);
 		gameOverText.gameObject.SetActive(true);
@@ -58,7 +68,7 @@ public class GameManager : MonoBehaviour {
 
 		StartCoroutine(SpawnTarget());
 		UpdateScore(0);
-		
+		UpdateLives(3);
 		gameTitleGroup.gameObject.SetActive(false);
 	}
 }
