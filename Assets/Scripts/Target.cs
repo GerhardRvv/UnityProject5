@@ -8,10 +8,10 @@ public class Target : MonoBehaviour {
 	private GameManager _gameManager;
 	public ParticleSystem explosionParticle;
 	
-	private float _minSpeed = 3200;
-	private float _maxSpeed = 3500;
+	private float _minSpeed = 3400;
+	private float _maxSpeed = 3600;
 	
-	private float _maxTorque = 100;
+	private float _maxTorque = 400;
 	private float _xRange = 4;
 	private float _ySpawnPos = 0;
 	
