@@ -51,18 +51,26 @@ public class Target : MonoBehaviour {
 	void Update() {
 	}
 
-	private void OnMouseDown() {
-		if (_gameManager.isGameActive) {
-			Destroy(gameObject);
-			Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-			_gameManager.UpdateScore(pointValue);
-		}
-	}
+	// private void OnMouseDown() {
+	// 	if (_gameManager.isGameActive) {
+	// 		Destroy(gameObject);
+	// 		Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+	// 		_gameManager.UpdateScore(pointValue);
+	// 	}
+	// }
 
 	private void OnTriggerEnter(Collider other) {
 		Destroy(gameObject);
 		if (!gameObject.CompareTag("BadItem") && _gameManager.isGameActive) {
 			_gameManager.UpdateLives(-1);
+		}
+	}
+
+	public void DestroyTarget() {
+		if (_gameManager.isGameActive) {
+			Destroy(gameObject);
+			Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+			_gameManager.UpdateScore(pointValue);
 		}
 	}
 }

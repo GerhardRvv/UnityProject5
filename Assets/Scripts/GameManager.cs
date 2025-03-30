@@ -6,27 +6,32 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-
 	public List<GameObject> targets;
 	public TextMeshProUGUI livesText;
 	private int _lives = 3;
-	
+
 	public TextMeshProUGUI scoreText;
 	public TextMeshProUGUI gameOverText;
-	
+
+	public GameObject pauseGamePanel;
+	private bool _isPaused;
+
 	public Button restartButton;
 	public GameObject gameTitleGroup;
-	
+
 	public bool isGameActive;
 	private int _score;
 	private float _spawnRate = 1.5f;
-	
+
 	// Start is called once before the first execution of Update after the MonoBehaviour is created
 	void Start() {
 	}
 
 	// Update is called once per frame
 	void Update() {
+		if (Input.GetKeyDown(KeyCode.P)) {
+			ChangePaused();
+		}
 	}
 
 	IEnumerator SpawnTarget() {
@@ -63,12 +68,24 @@ public class GameManager : MonoBehaviour {
 	public void StartGame(int difficulty) {
 		isGameActive = true;
 		_score = 0;
-		
+
 		_spawnRate /= difficulty;
 
 		StartCoroutine(SpawnTarget());
 		UpdateScore(0);
 		UpdateLives(3);
 		gameTitleGroup.gameObject.SetActive(false);
+	}
+
+	void ChangePaused() {
+		if (!_isPaused) {
+			_isPaused = true;
+			pauseGamePanel.SetActive(true);
+			Time.timeScale = 0;
+		} else {
+			_isPaused = false;
+			pauseGamePanel.SetActive(false);
+			Time.timeScale = 1;
+		}
 	}
 }
